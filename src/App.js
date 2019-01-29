@@ -12,7 +12,8 @@ class App extends Component {
       (navigator.platform.indexOf("iPod") != -1))
       // window.open("maps://maps.google.com/maps?daddr=<lat>,<long>&amp;ll=");
       // window.open("maps://maps.google.com/maps?dirflg=w&daddr=56.069196,12.699620&amp;ll=");
-      window.open("maps://maps.google.com/maps?dirflg=w&daddr=ICA+Nära+Kurir+Livs,+Kurirgatan,+Helsingborg&amp;ll=");
+      // window.open("maps://maps.google.com/maps?dirflg=w&daddr=ICA+Nära+Kurir+Livs,+Kurirgatan,+Helsingborg&amp;ll=");
+      window.open("maps://maps.google.com/maps?dirflg=w&daddr=ICA+Nära+Kurir+Livs,+Kurirgatan+1,+254+53+Helsingborg/@56.0655745,12.6302616");
     else /* else use Google */
       window.open("https://maps.google.com/maps?daddr=56.069196,12.699620&amp;ll=");
   }
