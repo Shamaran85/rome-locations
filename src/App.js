@@ -28,13 +28,14 @@ let alla = [
   {
     name: 'Ica',
     cords: [56.0655745, 12.6302616],
-    url: 'maps.google.com/maps?dirflg=w&daddr=ICA+Nära+Kurir+Livs,+Kurirgatan+1,+254+53+Helsingborg/@56.0655745,12.6302616',
+    url: 'ICA+Nära+Kurir+Livs,+Kurirgatan+1,+254+53+Helsingborg/@56.0655745,12.6302616',
     distance: 0
   },
   {
     name: 'Aktiverum',
     cords: [56.065210, 12.709134],
-    url: 'maps.google.com/maps?dirflg=w&daddr=Studio+Aktiverum+AB/@56.065196,12.706942',
+    // url: 'maps.google.com/maps?dirflg=w&daddr=Studio+Aktiverum+AB/@56.065196,12.706942',
+    url: 'Studio+Aktiverum+AB/@56.0650092,12.7069295',
     distance: 0
   },
 ]
@@ -94,29 +95,33 @@ class App extends Component {
     const a = (dLatSin * dLatSin) +
       (Math.cos(toRad(latlngA[1])) * Math.cos(toRad(latlngB[1])) * dLonSin * dLonSin);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    let distance = R * c;
+    let distance = Math.floor(R * c) + 'meters';
 
     return distance;
   }
 
-  mapsSelector(showInfo) {
-    console.log('R2:', this.state.restaurants);
-    const uno = this.state.locations[0].url;
-    console.log('Shou', showInfo);
-    if /* if we're on iOS, open in Apple Maps */
-      ((navigator.platform.indexOf("iPhone") != -1) ||
-      (navigator.platform.indexOf("iPad") != -1) ||
-      (navigator.platform.indexOf("iPod") != -1))
-      // window.open("maps://maps.google.com/maps?daddr=<lat>,<long>&amp;ll=");
-      // window.open("maps://maps.google.com/maps?dirflg=w&daddr=56.069196,12.699620&amp;ll=");
-      // window.open("maps://maps.google.com/maps?dirflg=w&daddr=ICA+Nära+Kurir+Livs,+Kurirgatan,+Helsingborg&amp;ll=");
-      // window.open("maps://maps.google.com/maps?dirflg=w&daddr=ICA+Nära+Kurir+Livs,+Kurirgatan+1,+254+53+Helsingborg/@56.0655745,12.6302616");
-      window.open("maps://" + uno);
-    else /* else use Google */
-      // window.open("https://maps.google.com/maps?daddr=56.069196,12.699620&amp;ll=");
-      window.open("https://" + uno);
-  }
+  // mapsSelector(showInfo) {
+  //   console.log('R2:', this.state.restaurants);
+  //   const uno = this.state.locations[0].url;
+  //   console.log('Shou', showInfo);
+  //   if /* if we're on iOS, open in Apple Maps */
+  //     ((navigator.platform.indexOf("iPhone") != -1) ||
+  //     (navigator.platform.indexOf("iPad") != -1) ||
+  //     (navigator.platform.indexOf("iPod") != -1))
+  //     // window.open("maps://maps.google.com/maps?daddr=<lat>,<long>&amp;ll=");
+  //     // window.open("maps://maps.google.com/maps?dirflg=w&daddr=56.069196,12.699620&amp;ll=");
+  //     // window.open("maps://maps.google.com/maps?dirflg=w&daddr=ICA+Nära+Kurir+Livs,+Kurirgatan,+Helsingborg&amp;ll=");
+  //     // window.open("maps://maps.google.com/maps?dirflg=w&daddr=ICA+Nära+Kurir+Livs,+Kurirgatan+1,+254+53+Helsingborg/@56.0655745,12.6302616");
 
+
+
+  // https://maps.google.com//maps?dirflg=w&daddr=Studio+Aktiverum+AB/@56.0650062,12.7091235,15z/data=!4m5!3m4!1s0x0:0xc52a46d336392596!8m2!3d56.0650062!4d12.7091235
+  //     window.open("maps://" + uno);
+  //   else /* else use Google */
+  //     // window.open("https://maps.google.com/maps?daddr=56.069196,12.699620&amp;ll=");
+  //     window.open("https://" + uno);
+  // }
+  // maps.google.com/maps?dirflg=w&daddr=Studio+Aktiverum+AB/@56.0650092,12.7069295
 
   goToMap(item) {
     const url = item.url;
@@ -125,12 +130,26 @@ class App extends Component {
       ((navigator.platform.indexOf("iPhone") !== -1) ||
       (navigator.platform.indexOf("iPad") !== -1) ||
       (navigator.platform.indexOf("iPod") !== -1))
-      window.open("maps://" + url);
+      window.open("maps://maps.google.com/maps?dirflg=w&daddr=" + url);
     else /* else use Google */
       // window.open("https://maps.google.com/maps?daddr=56.069196,12.699620&amp;ll=");
-      window.open("https://" + url);
-
+      window.open("https://maps.google.com/maps?dirflg=w&daddr=" + url);
   }
+
+
+  // goToMap(item) {
+  //   const url = item.url;
+
+  //   if /* if we're on iOS, open in Apple Maps */
+  //     ((navigator.platform.indexOf("iPhone") !== -1) ||
+  //     (navigator.platform.indexOf("iPad") !== -1) ||
+  //     (navigator.platform.indexOf("iPod") !== -1))
+  //     window.open("maps://" + url);
+  //   else /* else use Google */
+  //     // window.open("https://maps.google.com/maps?daddr=56.069196,12.699620&amp;ll=");
+  //     // window.open("https://" + url);
+  //     window.open(url);
+  // }
 
   render() {
 
@@ -139,7 +158,9 @@ class App extends Component {
     let displayAll = locations.map((item, index) => {
       return (
         <li key={index} onClick={() => this.goToMap(item)}>
-          {item.name}
+          <p>Name: {item.name}</p>
+          <p>Distance: {item.distance}</p>
+          <p>{item.url}</p>
         </li>
       )
     })
