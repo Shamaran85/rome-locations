@@ -28,12 +28,16 @@ let alla = [
   {
     name: 'Ica',
     cords: [56.0655745, 12.6302616],
+    lat: 56.0655745,
+    lon: 12.6302616,
     url: 'ICA+Nära+Kurir+Livs,+Kurirgatan+1,+254+53+Helsingborg/@56.0655745,12.6302616',
     distance: 0
   },
   {
     name: 'Aktiverum',
     cords: [56.065210, 12.709134],
+    lat: 56.0650092,
+    lon: 12.7069295,
     // url: 'maps.google.com/maps?dirflg=w&daddr=Studio+Aktiverum+AB/@56.065196,12.706942',
     url: 'Studio+Aktiverum+AB/@56.0650092,12.7069295',
     distance: 0
@@ -44,7 +48,9 @@ let alla = [
 class App extends Component {
   state = {
     userPosition: [],
-    locations: []
+    locations: [],
+    latitude: null,
+    longitude: null
   }
 
 
@@ -65,6 +71,9 @@ class App extends Component {
     const longitude = position.coords.longitude;
     const latitude = position.coords.latitude;
 
+    this.setState({ longitude });
+    this.setState({ latitude });
+
     const userCords = this.state.userPosition.concat(longitude, latitude);
 
     this.setState({ userPosition: userCords }, () => {
@@ -73,10 +82,10 @@ class App extends Component {
   }
 
   setRestaurants() {
-    const userPosition = this.state.userPosition;
+    // const userPosition = this.state.userPosition;
 
     alla.map(item => {
-      item.distance = this.haversineDistance(userPosition, item.cords);
+      item.distance = this.getDistance(this.state.latitude, this.state.longitude, item.lat, item.lon);
       this.setState(prevState => ({
         locations: [...prevState.locations, item]
       }))
@@ -98,6 +107,22 @@ class App extends Component {
     let distance = Math.floor(R * c) + 'meters';
 
     return distance;
+  }
+
+  getDistance(lat1, lon1, lat2, lon2) {
+    const radlat1 = Math.PI * lat1 / 180;
+    const radlat2 = Math.PI * lat2 / 180;
+    const theta = lon1 - lon2;
+    const radtheta = Math.PI * theta / 180;
+    let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    dist = Math.acos(dist);
+    dist = dist * 180 / Math.PI;
+    dist = dist * 60 * 1.1515;
+    dist = dist * 1.609344;
+
+    let res = Math.round(dist * 1000) / 1000;
+
+    return res
   }
 
   // mapsSelector(showInfo) {
@@ -153,13 +178,19 @@ class App extends Component {
 
   render() {
 
-    const { locations } = this.state;
+
+
+    const { locations, longitude, latitude } = this.state;
+
+    var distance = this.getDistance(56.070870, 12.697843, 56.065210, 12.709134);
+    //round to 3 decimal places
+    console.log(Math.round(distance * 1000) / 1000);  //displays 343.548
 
     let displayAll = locations.map((item, index) => {
       return (
         <li key={index} onClick={() => this.goToMap(item)}>
           <p>Name: {item.name}</p>
-          <p>Distance: {item.distance}</p>
+          <p>Distance: {item.distance}km</p>
           <p>{item.url}</p>
         </li>
       )
@@ -168,6 +199,7 @@ class App extends Component {
 
     return (
       <div className="App">
+        <h1>{this.state.userPosition}</h1>
         <ul>
           {displayAll}
         </ul>
