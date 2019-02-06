@@ -120,9 +120,9 @@ class App extends Component {
     dist = dist * 60 * 1.1515;
     dist = dist * 1.609344;
 
-    let res = Math.round(dist * 1000) / 1000;
+    let result = Math.round(dist * 10) / 10;
 
-    return res
+    return result
   }
 
   // mapsSelector(showInfo) {
