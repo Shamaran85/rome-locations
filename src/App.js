@@ -22,46 +22,101 @@ import './App.css';
 // Öppet: 10:30  - 02:00
 
 
+
+
+let alla = [
+  {
+    name: 'Ica',
+    cords: [56.0655745, 12.6302616],
+    url: 'maps.google.com/maps?dirflg=w&daddr=ICA+Nära+Kurir+Livs,+Kurirgatan+1,+254+53+Helsingborg/@56.0655745,12.6302616',
+    distance: 0
+  },
+  {
+    name: 'Aktiverum',
+    cords: [56.065210, 12.709134],
+    url: 'maps.google.com/maps?dirflg=w&daddr=Studio+Aktiverum+AB/@56.065196,12.706942',
+    distance: 0
+  },
+]
+
+
 class App extends Component {
   state = {
-    restaurants: [],
-    myCurrentLocation: null,
-    selectedLocation: null
+    userPosition: [],
+    locations: []
   }
 
 
-  getLocation() {
+
+  componentDidMount() {
+
+
+    // for (let en of alla) {
+    //   console.log(en);
+    // }
+
+    // console.log(this.alla);
+
+    this.getGeoLocation();
+  }
+
+
+
+
+
+  getGeoLocation() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(this.showPosition);
+      navigator.geolocation.getCurrentPosition(position => this.setGeoLocation(position));
     } else {
       console.log("Geolocation is not supported by this browser.");
     }
   }
 
-  showPosition(position) {
-    alert("Latitude: " + position.coords.latitude +
-      " Longitude: " + position.coords.longitude);
+  setGeoLocation(position) {
+    const longitude = position.coords.longitude;
+    const latitude = position.coords.latitude;
+
+    const userCords = this.state.userPosition.concat(longitude, latitude);
+
+    this.setState({ userPosition: userCords }, () => {
+      this.setRestaurants();
+    });
+  }
+
+  setRestaurants() {
+
+    const userPosition = this.state.userPosition;
+
+    alla.map(item => {
+      item.distance = this.haversineDistance(userPosition, item.cords);
+      this.setState(prevState => ({
+        locations: [...prevState.locations, item]
+      }))
+    })
   }
 
 
-  distance(lat1, lon1, lat2, lon2, unit) {
-    var radlat1 = Math.PI * lat1 / 180
-    var radlat2 = Math.PI * lat2 / 180
-    var radlon1 = Math.PI * lon1 / 180
-    var radlon2 = Math.PI * lon2 / 180
-    var theta = lon1 - lon2
-    var radtheta = Math.PI * theta / 180
-    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-    dist = Math.acos(dist)
-    dist = dist * 180 / Math.PI
-    dist = dist * 60 * 1.1515
-    if (unit == "K") { dist = dist * 1.609344 }
-    if (unit == "N") { dist = dist * 0.8684 }
-    return dist
+  haversineDistance(latlngA, latlngB) {
+    const toRad = x => (x * Math.PI) / 180;
+    const R = 6371; // km
+
+    const dLat = toRad(latlngB[0] - latlngA[0]);
+    const dLatSin = Math.sin(dLat / 2);
+    const dLon = toRad(latlngB[1] - latlngA[1]);
+    const dLonSin = Math.sin(dLon / 2);
+
+    const a = (dLatSin * dLatSin) +
+      (Math.cos(toRad(latlngA[1])) * Math.cos(toRad(latlngB[1])) * dLonSin * dLonSin);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    let distance = R * c;
+
+    return distance;
   }
 
-
-  mapsSelector() {
+  mapsSelector(showInfo) {
+    console.log('R2:', this.state.restaurants);
+    const uno = this.state.locations[0].url;
+    console.log('Shou', showInfo);
     if /* if we're on iOS, open in Apple Maps */
       ((navigator.platform.indexOf("iPhone") != -1) ||
       (navigator.platform.indexOf("iPad") != -1) ||
@@ -69,18 +124,39 @@ class App extends Component {
       // window.open("maps://maps.google.com/maps?daddr=<lat>,<long>&amp;ll=");
       // window.open("maps://maps.google.com/maps?dirflg=w&daddr=56.069196,12.699620&amp;ll=");
       // window.open("maps://maps.google.com/maps?dirflg=w&daddr=ICA+Nära+Kurir+Livs,+Kurirgatan,+Helsingborg&amp;ll=");
-      window.open("maps://maps.google.com/maps?dirflg=w&daddr=ICA+Nära+Kurir+Livs,+Kurirgatan+1,+254+53+Helsingborg/@56.0655745,12.6302616");
+      // window.open("maps://maps.google.com/maps?dirflg=w&daddr=ICA+Nära+Kurir+Livs,+Kurirgatan+1,+254+53+Helsingborg/@56.0655745,12.6302616");
+      window.open("maps://" + uno);
     else /* else use Google */
-      window.open("https://maps.google.com/maps?daddr=56.069196,12.699620&amp;ll=");
+      // window.open("https://maps.google.com/maps?daddr=56.069196,12.699620&amp;ll=");
+      window.open("https://" + uno);
   }
 
 
   render() {
+
+    const { userPosition } = this.state;
+
+    console.log('R:', this.state.locations);
+
+    console.log('heheahe', this.haversineDistance(userPosition, [56.044505, 12.692611]));
+
+    // const test = this.haversineDistance(56.070858, 12.697843, 56.044505, 12.692611);
+
+    // let showInfo;
+
+    // if (this.state.userPosition !== null) {
+    //   showInfo = this.state.userPosition;
+    // }
+    // // const showInfo = 
+    // console.log('state', this.state.userPosition);
     return (
       <div className="App">
+        <p> {userPosition} </p>
 
-        <button onClick={() => this.mapsSelector()}>Butt</button>
-        <button onClick={() => this.getLocation()}>Get Location</button>
+        <button onClick={() => this.mapsSelector(userPosition)}>Butt</button>
+        <button onClick={() => this.haversineDistance([56.070858, 12.697843], [56.044505, 12.692611])}>hehe</button>
+
+        {/* <p>{this.state.locations[0].url}</p> */}
         {/* <img src="directions-icon.png" onclick="mapsSelector()" /> */}
 
         {/* <a href="https://www.google.se/maps/dir/Johan+H%C3%A5rds+gata+72,+254+54+Helsingborg,+Sverige/ICA+N%C3%A4ra+Kurir+Livs,+Kurirgatan+1,+254+53+Helsingborg/">Ica Nära</a> */}
