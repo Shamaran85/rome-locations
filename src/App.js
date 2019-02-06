@@ -49,20 +49,8 @@ class App extends Component {
 
 
   componentDidMount() {
-
-
-    // for (let en of alla) {
-    //   console.log(en);
-    // }
-
-    // console.log(this.alla);
-
     this.getGeoLocation();
   }
-
-
-
-
 
   getGeoLocation() {
     if (navigator.geolocation) {
@@ -84,7 +72,6 @@ class App extends Component {
   }
 
   setRestaurants() {
-
     const userPosition = this.state.userPosition;
 
     alla.map(item => {
@@ -94,7 +81,6 @@ class App extends Component {
       }))
     })
   }
-
 
   haversineDistance(latlngA, latlngB) {
     const toRad = x => (x * Math.PI) / 180;
@@ -132,29 +118,42 @@ class App extends Component {
   }
 
 
+  goToMap(item) {
+    const url = item.url;
+
+    if /* if we're on iOS, open in Apple Maps */
+      ((navigator.platform.indexOf("iPhone") !== -1) ||
+      (navigator.platform.indexOf("iPad") !== -1) ||
+      (navigator.platform.indexOf("iPod") !== -1))
+      window.open("maps://" + url);
+    else /* else use Google */
+      // window.open("https://maps.google.com/maps?daddr=56.069196,12.699620&amp;ll=");
+      window.open("https://" + url);
+
+  }
+
   render() {
 
-    const { userPosition } = this.state;
+    const { locations } = this.state;
 
-    console.log('R:', this.state.locations);
+    let displayAll = locations.map((item, index) => {
+      return (
+        <li key={index} onClick={() => this.goToMap(item)}>
+          {item.name}
+        </li>
+      )
+    })
 
-    console.log('heheahe', this.haversineDistance(userPosition, [56.044505, 12.692611]));
 
-    // const test = this.haversineDistance(56.070858, 12.697843, 56.044505, 12.692611);
-
-    // let showInfo;
-
-    // if (this.state.userPosition !== null) {
-    //   showInfo = this.state.userPosition;
-    // }
-    // // const showInfo = 
-    // console.log('state', this.state.userPosition);
     return (
       <div className="App">
-        <p> {userPosition} </p>
+        <ul>
+          {displayAll}
+        </ul>
+        {/* <p> {userPosition} </p> */}
 
-        <button onClick={() => this.mapsSelector(userPosition)}>Butt</button>
-        <button onClick={() => this.haversineDistance([56.070858, 12.697843], [56.044505, 12.692611])}>hehe</button>
+        {/* <button onClick={() => this.mapsSelector(userPosition)}>Butt</button> */}
+        {/* <button onClick={() => this.haversineDistance([56.070858, 12.697843], [56.044505, 12.692611])}>hehe</button> */}
 
         {/* <p>{this.state.locations[0].url}</p> */}
         {/* <img src="directions-icon.png" onclick="mapsSelector()" /> */}
