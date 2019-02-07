@@ -96,12 +96,19 @@ class App extends Component {
   }
 
   setRestaurants() {
+    const lat = this.state.latitude;
+    const lon = this.state.longitude;
+
+    let array = [];
+
     alla.map(item => {
-      item.distance = this.getDistance(this.state.latitude, this.state.longitude, item.lat, item.lon);
-      this.setState(prevState => ({
-        locations: [...prevState.locations, item]
-      }));
+      item.distance = this.getDistance(lat, lon, item.lat, item.lon);
+      array.push(item)
     });
+
+    this.setState({ locations: array }, () => {
+      this.sortByDistance();
+    })
   }
 
   sortByDistance() {
@@ -174,26 +181,14 @@ class App extends Component {
 
     return (
       <div className="App">
-        {/* <h1>{this.state.latitude}, {this.state.longitude}</h1> */}
-        <h1>Rome</h1>
+        <h1>Rome Restaurants</h1>
         <ul>
           {displayAll}
         </ul>
 
 
-        <button onClick={() => this.sortByDistance()}>Sort</button>
+        {/* <button onClick={() => this.sortByDistance()}>Sort</button>  */}
 
-        {/* <p> {userPosition} </p> */}
-
-
-
-        {/* <button onClick={() => this.mapsSelector(userPosition)}>Butt</button> */}
-        {/* <button onClick={() => this.haversineDistance([56.070858, 12.697843], [56.044505, 12.692611])}>hehe</button> */}
-
-        {/* <p>{this.state.locations[0].url}</p> */}
-        {/* <img src="directions-icon.png" onclick="mapsSelector()" /> */}
-
-        {/* <a href="https://www.google.se/maps/dir/Johan+H%C3%A5rds+gata+72,+254+54+Helsingborg,+Sverige/ICA+N%C3%A4ra+Kurir+Livs,+Kurirgatan+1,+254+53+Helsingborg/">Ica Nära</a> */}
       </div>
     );
   }
