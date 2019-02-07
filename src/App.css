@@ -4,31 +4,53 @@ h1 {
 
 ul {
   list-style-type: none;
-  width: 400px;  
+  width: 375px;  
   margin: 0 auto;
   padding: 0;
   background-color: blue;
 }
 
 li {
-  background-color: red;
+  display: flex;
   color: #fff;
+  background-color: red;  
   padding: 10px;
-  margin: 20px;
+  margin: 20px 0;  
+}
+
+.left .image-container {
+  height: 80px;
+  width: 120px;
+  overflow: hidden;
 }
 
 li img {
-  width: 100%;
+  width: 120px;
   height: auto;
 }
 
 li h2 {
+  font-size: 14px;
   margin: 0;
   padding: 0;
 }
 
+li .right .description {
+  margin: 0;
+  font-size: 10px;
+}
+
 li .distance {
-  margin-top: 60px;
+  /* margin-top: 60px; */
  text-align: right;
+}
+
+li .left {
+  flex: 0 1 120px;
+}
+
+li .right {
+  flex: 2;
+  margin-left: 15px;
 }
 

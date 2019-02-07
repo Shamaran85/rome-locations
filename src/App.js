@@ -130,11 +130,19 @@ class App extends Component {
     let displayAll = locations.map((item, index) => {
       return (
         <li key={index} onClick={() => this.goToMap(item)}>
-          <img src={item.image} alt={item.name} />
-          <h2>{item.name}</h2>
-          <p>{item.description}</p>
-          <p className="distance">{item.distance}km</p>
-          {/* <p>{item.url}</p> */}
+          <div className="left">
+            <div className="image-container">
+              <img src={item.image} alt={item.name} />
+            </div>
+          </div>
+
+
+          <div className="right">
+            <h2>{item.name}</h2>
+            <p className="description">{item.description}</p>
+            <p className="distance">{item.distance}km</p>
+          </div>
+
         </li>
       )
     })
