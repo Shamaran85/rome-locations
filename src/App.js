@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 
@@ -28,7 +27,8 @@ let alla = [
   {
     name: 'Ica',
     cords: [56.0655745, 12.6302616],
-    lat: 56.0655745,
+    // lat: 56.0655745,
+    lat: 56.065966,
     lon: 12.6302616,
     url: 'ICA+Nära+Kurir+Livs,+Kurirgatan+1,+254+53+Helsingborg/@56.0655745,12.6302616',
     distance: 0
@@ -151,14 +151,11 @@ class App extends Component {
   goToMap(item) {
     const url = item.url;
 
-    if /* if we're on iOS, open in Apple Maps */
-      ((navigator.platform.indexOf("iPhone") !== -1) ||
-      (navigator.platform.indexOf("iPad") !== -1) ||
-      (navigator.platform.indexOf("iPod") !== -1))
+    if ((navigator.platform.indexOf("iPhone") !== -1) || (navigator.platform.indexOf("iPad") !== -1) || (navigator.platform.indexOf("iPod") !== -1)) {
       window.open("maps://maps.google.com/maps?dirflg=w&daddr=" + url);
-    else /* else use Google */
-      // window.open("https://maps.google.com/maps?daddr=56.069196,12.699620&amp;ll=");
+    } else {
       window.open("https://maps.google.com/maps?dirflg=w&daddr=" + url);
+    }
   }
 
 
@@ -177,14 +174,11 @@ class App extends Component {
   // }
 
   render() {
-
-
-
-    const { locations, longitude, latitude } = this.state;
-
-    var distance = this.getDistance(56.070870, 12.697843, 56.065210, 12.709134);
+    var distance = this.getDistance(56.070858, 12.697843, 56.065966, 12.700262);
     //round to 3 decimal places
     console.log(Math.round(distance * 1000) / 1000);  //displays 343.548
+
+    const { locations, longitude, latitude } = this.state;
 
     let displayAll = locations.map((item, index) => {
       return (
@@ -199,7 +193,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <h1>{this.state.userPosition}</h1>
+        <h1>{this.state.latitude}, {this.state.longitude}</h1>
         <ul>
           {displayAll}
         </ul>
