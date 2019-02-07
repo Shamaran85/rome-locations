@@ -44,16 +44,12 @@ let alla = [
   },
 ]
 
-
 class App extends Component {
   state = {
-    userPosition: [],
     locations: [],
     latitude: null,
     longitude: null
   }
-
-
 
   componentDidMount() {
     this.getGeoLocation();
@@ -71,25 +67,18 @@ class App extends Component {
     const longitude = position.coords.longitude;
     const latitude = position.coords.latitude;
 
-    this.setState({ longitude });
-    this.setState({ latitude });
-
-    const userCords = this.state.userPosition.concat(longitude, latitude);
-
-    this.setState({ userPosition: userCords }, () => {
+    this.setState({ longitude, latitude }, () => {
       this.setRestaurants();
     });
   }
 
   setRestaurants() {
-    // const userPosition = this.state.userPosition;
-
     alla.map(item => {
       item.distance = this.getDistance(this.state.latitude, this.state.longitude, item.lat, item.lon);
       this.setState(prevState => ({
         locations: [...prevState.locations, item]
-      }))
-    })
+      }));
+    });
   }
 
   haversineDistance(latlngA, latlngB) {
@@ -125,29 +114,6 @@ class App extends Component {
     return result
   }
 
-  // mapsSelector(showInfo) {
-  //   console.log('R2:', this.state.restaurants);
-  //   const uno = this.state.locations[0].url;
-  //   console.log('Shou', showInfo);
-  //   if /* if we're on iOS, open in Apple Maps */
-  //     ((navigator.platform.indexOf("iPhone") != -1) ||
-  //     (navigator.platform.indexOf("iPad") != -1) ||
-  //     (navigator.platform.indexOf("iPod") != -1))
-  //     // window.open("maps://maps.google.com/maps?daddr=<lat>,<long>&amp;ll=");
-  //     // window.open("maps://maps.google.com/maps?dirflg=w&daddr=56.069196,12.699620&amp;ll=");
-  //     // window.open("maps://maps.google.com/maps?dirflg=w&daddr=ICA+Nära+Kurir+Livs,+Kurirgatan,+Helsingborg&amp;ll=");
-  //     // window.open("maps://maps.google.com/maps?dirflg=w&daddr=ICA+Nära+Kurir+Livs,+Kurirgatan+1,+254+53+Helsingborg/@56.0655745,12.6302616");
-
-
-
-  // https://maps.google.com//maps?dirflg=w&daddr=Studio+Aktiverum+AB/@56.0650062,12.7091235,15z/data=!4m5!3m4!1s0x0:0xc52a46d336392596!8m2!3d56.0650062!4d12.7091235
-  //     window.open("maps://" + uno);
-  //   else /* else use Google */
-  //     // window.open("https://maps.google.com/maps?daddr=56.069196,12.699620&amp;ll=");
-  //     window.open("https://" + uno);
-  // }
-  // maps.google.com/maps?dirflg=w&daddr=Studio+Aktiverum+AB/@56.0650092,12.7069295
-
   goToMap(item) {
     const url = item.url;
 
@@ -158,48 +124,25 @@ class App extends Component {
     }
   }
 
-
-  // goToMap(item) {
-  //   const url = item.url;
-
-  //   if /* if we're on iOS, open in Apple Maps */
-  //     ((navigator.platform.indexOf("iPhone") !== -1) ||
-  //     (navigator.platform.indexOf("iPad") !== -1) ||
-  //     (navigator.platform.indexOf("iPod") !== -1))
-  //     window.open("maps://" + url);
-  //   else /* else use Google */
-  //     // window.open("https://maps.google.com/maps?daddr=56.069196,12.699620&amp;ll=");
-  //     // window.open("https://" + url);
-  //     window.open(url);
-  // }
-
   render() {
-    // if (this.state.locations[0].lat !== undefined) {
-    //   var distance = this.getDistance(56.070858, 12.697843, this.state.locations[0].lat, this.state.locations[0].lon);
-    //   //round to 3 decimal places
-    //   console.log(Math.round(distance * 1000) / 1000);  //displays 343.548
-    // }
-
-
-    const { locations, longitude, latitude } = this.state;
+    const { locations } = this.state;
 
     let displayAll = locations.map((item, index) => {
-      var distance = this.getDistance(56.070858, 12.697843, item.lat, item.lon);
-      //round to 3 decimal places
-      console.log(Math.round(distance * 1000) / 1000);  //displays 343.548
       return (
         <li key={index} onClick={() => this.goToMap(item)}>
-          <p>Name: {item.name}</p>
-          <p>Distance: {item.distance}km</p>
-          <p>{item.url}</p>
+          <img src={item.image} alt={item.name} />
+          <h2>{item.name}</h2>
+          <p>{item.description}</p>
+          <p className="distance">{item.distance}km</p>
+          {/* <p>{item.url}</p> */}
         </li>
       )
     })
 
-
     return (
       <div className="App">
-        <h1>{this.state.latitude}, {this.state.longitude}</h1>
+        {/* <h1>{this.state.latitude}, {this.state.longitude}</h1> */}
+        <h1>Rome Restaurants</h1>
         <ul>
           {displayAll}
         </ul>
