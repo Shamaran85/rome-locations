@@ -26,21 +26,21 @@ import './App.css';
 let alla = [
   {
     name: 'La Bottega di Cesare',
-    lat: 41.9043998,
-    lon: 12.4771216,
-    url: 'La+Bottega+di+Cesare/@41.9043998,12.4771216',
+    lat: 41.904415,
+    lon: 12.477122,
+    url: 'La+Bottega+di+Cesare/@41.904415,12.477122',
     image: 'https://media-cdn.tripadvisor.com/media/photo-s/02/b8/a6/9e/la-bottega-di-cesare.jpg',
     distance: 0,
     description: 'Dinner: Great Pasta'
   },
   {
-    name: 'Aktiverum',
-    cords: [56.065210, 12.709134],
-    lat: 56.0650092,
-    lon: 12.7069295,
-    // url: 'maps.google.com/maps?dirflg=w&daddr=Studio+Aktiverum+AB/@56.065196,12.706942',
-    url: 'Studio+Aktiverum+AB/@56.0650092,12.7069295',
-    distance: 0
+    name: 'Saltimbocca Ristorante',
+    lat: 41.899230,
+    lon: 12.471578,
+    url: 'Saltimbocca+ristorante/@41.899230,12.471578',
+    image: 'https://s3-media3.fl.yelpcdn.com/bphoto/xBWIo0NGheSPlqM-mnCUAg/348s.jpg',
+    distance: 0,
+    description: 'Dinner: Great Pizzas'
   },
 ]
 
