@@ -138,9 +138,10 @@ class App extends Component {
 
 
           <div className="right">
-            <h2>{item.name}</h2>
-            <p className="description">{item.description}</p>
+            <h2 className="title">{item.name}</h2>
             <p className="distance">{item.distance}km</p>
+            <p className="description">{item.description}</p>
+
           </div>
 
         </li>

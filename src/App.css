@@ -7,15 +7,16 @@ ul {
   width: 375px;  
   margin: 0 auto;
   padding: 0;
-  background-color: blue;
 }
 
 li {
   display: flex;
-  color: #fff;
-  background-color: red;  
-  padding: 10px;
+  color: #555;  
+  background-color: #fff;  
+  padding: 5px;
   margin: 20px 0;  
+  /* border: 1px solid #ccc; */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)
 }
 
 .left .image-container {
@@ -29,24 +30,24 @@ li img {
   height: auto;
 }
 
-li h2 {
-  font-size: 14px;
+.right .title {
+  font-size: 1rem;
   margin: 0;
   padding: 0;
 }
 
-li .right .description {
+li .right .distance {
   margin: 0;
-  font-size: 10px;
+  font-size: 0.65rem;
 }
 
-li .distance {
-  /* margin-top: 60px; */
- text-align: right;
+li .right .description {
+  margin: 5px 0;
+  font-size: 0.75rem;
 }
 
 li .left {
-  flex: 0 1 120px;
+  flex: 1;
 }
 
 li .right {
