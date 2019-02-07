@@ -135,23 +135,19 @@ class App extends Component {
               <img src={item.image} alt={item.name} />
             </div>
           </div>
-
-
           <div className="right">
             <h2 className="title">{item.name}</h2>
             <p className="distance">{item.distance}km</p>
             <p className="description">{item.description}</p>
-
           </div>
-
         </li>
       )
-    })
+    });
 
     return (
       <div className="App">
         {/* <h1>{this.state.latitude}, {this.state.longitude}</h1> */}
-        <h1>Rome Restaurants</h1>
+        <h1>Rome</h1>
         <ul>
           {displayAll}
         </ul>
