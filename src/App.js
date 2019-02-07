@@ -25,13 +25,13 @@ import './App.css';
 
 let alla = [
   {
-    name: 'Ica',
-    cords: [56.0655745, 12.6302616],
-    // lat: 56.0655745,
-    lat: 56.065966,
-    lon: 12.6302616,
-    url: 'ICA+Nära+Kurir+Livs,+Kurirgatan+1,+254+53+Helsingborg/@56.0655745,12.6302616',
-    distance: 0
+    name: 'La Bottega di Cesare',
+    lat: 41.9043998,
+    lon: 12.4771216,
+    url: 'La+Bottega+di+Cesare/@41.9043998,12.4771216',
+    image: 'https://media-cdn.tripadvisor.com/media/photo-s/02/b8/a6/9e/la-bottega-di-cesare.jpg',
+    distance: 0,
+    description: 'Dinner: Great Pasta'
   },
   {
     name: 'Aktiverum',
@@ -174,13 +174,19 @@ class App extends Component {
   // }
 
   render() {
-    var distance = this.getDistance(56.070858, 12.697843, 56.065966, 12.700262);
-    //round to 3 decimal places
-    console.log(Math.round(distance * 1000) / 1000);  //displays 343.548
+    // if (this.state.locations[0].lat !== undefined) {
+    //   var distance = this.getDistance(56.070858, 12.697843, this.state.locations[0].lat, this.state.locations[0].lon);
+    //   //round to 3 decimal places
+    //   console.log(Math.round(distance * 1000) / 1000);  //displays 343.548
+    // }
+
 
     const { locations, longitude, latitude } = this.state;
 
     let displayAll = locations.map((item, index) => {
+      var distance = this.getDistance(56.070858, 12.697843, item.lat, item.lon);
+      //round to 3 decimal places
+      console.log(Math.round(distance * 1000) / 1000);  //displays 343.548
       return (
         <li key={index} onClick={() => this.goToMap(item)}>
           <p>Name: {item.name}</p>
