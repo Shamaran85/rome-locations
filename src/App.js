@@ -22,17 +22,7 @@ import './App.css';
 
 
 
-
 let alla = [
-  {
-    name: 'La Bottega di Cesare',
-    lat: 41.904415,
-    lon: 12.477122,
-    url: 'La+Bottega+di+Cesare/@41.904415,12.477122',
-    image: 'https://media-cdn.tripadvisor.com/media/photo-s/02/b8/a6/9e/la-bottega-di-cesare.jpg',
-    distance: 0,
-    description: 'Dinner: Great Pasta'
-  },
   {
     name: 'Saltimbocca Ristorante',
     lat: 41.899230,
@@ -40,7 +30,52 @@ let alla = [
     url: 'Saltimbocca+ristorante/@41.899230,12.471578',
     image: 'https://s3-media3.fl.yelpcdn.com/bphoto/xBWIo0NGheSPlqM-mnCUAg/348s.jpg',
     distance: 0,
-    description: 'Dinner: Great Pizzas'
+    description: 'Best pasta near Piazza Navona.'
+  },
+  {
+    name: 'La Bottega di Cesare',
+    lat: 41.904415,
+    lon: 12.477122,
+    url: 'La+Bottega+di+Cesare/@41.904415,12.477122',
+    image: 'https://media-cdn.tripadvisor.com/media/photo-s/02/b8/a6/9e/la-bottega-di-cesare.jpg',
+    distance: 0,
+    description: 'Traditional pasta dishes.'
+  },
+  {
+    name: 'Li Rioni a Santiquattro',
+    lat: 41.888706,
+    lon: 12.497790,
+    url: 'Li+Rioni+a+Santiquattro/@41.888706,12.497790',
+    image: 'http://lirioni.it/wp-content/uploads/2015/11/Pizzeria-Li-Rioni-Lirioni.it-Locale-03-sm_home_v1.jpg',
+    distance: 0,
+    description: 'Authentic Italian pizzas.'
+  },
+  {
+    name: 'Trattoria Luzzi',
+    lat: 41.889312,
+    lon: 12.496638,
+    url: 'Ristorante+Colosseo+"Luzzi"/@41.889312,12.496638',
+    image: 'https://4.bp.blogspot.com/-sQoqVx2kjyc/V0isH3m7BSI/AAAAAAAAY5g/hLI-vHjaHX09vbNA1QbAW9hwUmTwskR_ACLcB/s1600/1Trattoria%2BLuzzi.jpg',
+    distance: 0,
+    description: 'Bolognese, Pizza and Lamb.'
+  },
+  {
+    name: 'Dar Poeta Alla Scala',
+    lat: 41.890559,
+    lon: 12.468671,
+    url: 'Dar+Poeta+Alla+Scala/@41.890559,12.468671',
+    image: 'https://media-cdn.tripadvisor.com/media/photo-s/11/16/84/d4/photo0jpg.jpg',
+    distance: 0,
+    description: 'Lunch: Takeaway pizzas'
+  },
+  {
+    name: 'Que Te Pongo',
+    lat: 41.898567,
+    lon: 12.475362,
+    url: 'Que+Te+Pongo/@41.898567,12.475362',
+    image: 'http://tavoleromane.files.wordpress.com/2013/04/salmoneria_pic1.jpg',
+    distance: 0,
+    description: 'Lunch: Best Salmon in Rome.'
   },
 ]
 
@@ -59,7 +94,7 @@ class App extends Component {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => this.setGeoLocation(position));
     } else {
-      console.log("Geolocation is not supported by this browser.");
+      alert("Geolocation is not supported by this browser.");
     }
   }
 
@@ -81,9 +116,14 @@ class App extends Component {
     });
   }
 
+  sortByDistance() {
+    const ascLocations = this.state.locations.sort((a, b) => (a.distance) - (b.distance));
+    this.setState({ locations: ascLocations })
+  }
+
   haversineDistance(latlngA, latlngB) {
     const toRad = x => (x * Math.PI) / 180;
-    const R = 6371; // km
+    const R = 6371;
 
     const dLat = toRad(latlngB[0] - latlngA[0]);
     const dLatSin = Math.sin(dLat / 2);
@@ -151,7 +191,13 @@ class App extends Component {
         <ul>
           {displayAll}
         </ul>
+
+
+        <button onClick={() => this.sortByDistance()}>Sort</button>
+
         {/* <p> {userPosition} </p> */}
+
+
 
         {/* <button onClick={() => this.mapsSelector(userPosition)}>Butt</button> */}
         {/* <button onClick={() => this.haversineDistance([56.070858, 12.697843], [56.044505, 12.692611])}>hehe</button> */}
