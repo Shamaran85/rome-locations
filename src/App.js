@@ -1,27 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 
-
-
-
-
-// Data
-
-// Pizza
-
-// La Renella Forno Antico Trastevere
-// La+Renella+Forno+Antico+Trastevere/@41.8907907,12.4706911
-// Via del Moro, 15, 00153 Roma RM, Italien
-// Öppet: 07:00 - 24:00
-// They are famous for their breaded vegetable appetizer, home made fettucini (Bolognese or Cozze e Vongole), as well as their meats, especially the lamb! 
-
-// Dar Poeta Alla Scala
-// Dar+Poeta+Alla+Scala/@41.8905578,12.468671
-// Via della Scala, 73, 00153 Roma RM, Italien
-// Öppet: 10:30  - 02:00
-
-
-
 let alla = [
   {
     name: 'Saltimbocca Ristorante',
@@ -70,9 +49,9 @@ let alla = [
   },
   {
     name: 'Que Te Pongo',
-    lat: 41.898567,
-    lon: 12.475362,
-    url: 'Que+Te+Pongo/@41.898567,12.475362',
+    lat: 41.898553,
+    lon: 12.475358,
+    url: 'Que+Te+Pongo/@41.898553,12.475358',
     image: 'http://tavoleromane.files.wordpress.com/2013/04/salmoneria_pic1.jpg',
     distance: 0,
     description: 'Lunch: Best Salmon in Rome.'
