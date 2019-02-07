@@ -56,6 +56,15 @@ let alla = [
     distance: 0,
     description: 'Lunch: Best Salmon in Rome.'
   },
+  {
+    name: 'La Prosciutteria',
+    lat: 41.901902,
+    lon: 12.484504,
+    url: 'Prosciutteria+Trevi+Cantina+dei+Papi/@41.901902,12.484504',
+    image: 'https://media-cdn.tripadvisor.com/media/photo-s/14/d6/98/af/photo0jpg.jpg',
+    distance: 0,
+    description: 'Sandwiches and amazing cold cuts.'
+  },
 ]
 
 class App extends Component {
